@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import './barberSchedule'
-import { convertDecimalToTime } from '../../utilityFunctions/utilityFunctions'
+import { convertDecimalToTime } from '../../utilityFunctions/dates'
 import DateContext from '../../screens/appointment/appointment'
 
 function BarberSchedule(props) {
@@ -19,6 +19,8 @@ function BarberSchedule(props) {
 
     const [appointmentTime, setAppointmentTime] = useState([])
 
+    const [appointmentsBarber, setAppointmentsBarber] = useState([])
+
 
     
 
@@ -36,8 +38,28 @@ function BarberSchedule(props) {
             setAppointmentTime(formatedTime)
         }
 
-        console.log(barberName + " + " + dateAppointment)
+        const fetchAppointments = async (barberName,date) => {
+            try {
+              const response = await fetch('http://localhost:3000/api/appointment/barber/'+ barberName + "/date/" + date);
+              if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données');
+              }
+              const jsonData = await response.json();
+
+              if (Object.keys(jsonData).length>0){
+                setAppointmentsBarber(jsonData);
+                console.log(jsonData)
+
+
+
+              }
+            } catch (error) {
+              console.error('Une erreur s\'est produite:', error);
+            }
+          }
+
         createIntervals(firstClient,lastClient,intervalTime)
+        fetchAppointments(barberName,dateAppointment)
     
       return () => {
     
@@ -51,9 +73,11 @@ function BarberSchedule(props) {
       {appointmentTime.map((time,index)=>{
         
         return (
-            <li key={index}>{time}</li>
+            <li className= "Book-interval" key={index}>{time}</li>
         )
       })}
+      
+      
     </>
   )
 }

@@ -15,9 +15,7 @@ function Appointment() {
 
 
     const handleClickDay= (date)=>{
-            //console.log(date)
             setSelectedDate(date)
-
       }
 
       useEffect(() => {

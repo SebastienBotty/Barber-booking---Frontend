@@ -1,13 +1,15 @@
 import React,{useState,useEffect} from 'react'
-import './appointmentSchedule'
+import './barberSchedule'
 import { convertDecimalToTime } from '../../utilityFunctions/utilityFunctions'
+import DateContext from '../../screens/appointment/appointment'
 
-function AppointmentSchedule() {
+function BarberSchedule(props) {
 
-    const barbers= [{name:"Joey"},
-                    {name:"Bobby"},
-                    {name:"Michael"}
-                    ]
+    const {barberName,dateAppointment} = props.value
+
+
+
+   
                     
     const firstClient = 9 // In hours
     const lastClient= 18 // In hours
@@ -16,6 +18,7 @@ function AppointmentSchedule() {
    
 
     const [appointmentTime, setAppointmentTime] = useState([])
+
 
     
 
@@ -26,19 +29,20 @@ function AppointmentSchedule() {
             for ( let i = start; i <=end;i +=interval){
                 (i == breakTime)? console.log("rien"): temporaryInterval.push(i)
             }
-            console.log(temporaryInterval + "Temporaire")
+            //console.log(temporaryInterval + "Temporaire")
             
             const formatedTime =temporaryInterval.map(convertDecimalToTime)
-            console.log(formatedTime)
+            //console.log(formatedTime)
             setAppointmentTime(formatedTime)
         }
 
+        console.log(barberName + " + " + dateAppointment)
         createIntervals(firstClient,lastClient,intervalTime)
     
       return () => {
     
       }
-    }, [])
+    }, [dateAppointment])
     
 
   return (
@@ -54,4 +58,4 @@ function AppointmentSchedule() {
   )
 }
 
-export default AppointmentSchedule
+export default BarberSchedule

@@ -23,3 +23,19 @@ export const convertToStartOfDay = (date) =>{
 
 
 }
+
+export const createDateFromTimeString = (date,timeString) =>{
+    // Séparer l'heure et les minutes en utilisant la méthode split()
+    const [heureStr, minutesStr] = timeString.split('h');
+
+    // Convertir les chaînes de caractères en nombres
+    const heureNum = parseInt(heureStr, 10);
+    const minutesNum = parseInt(minutesStr, 10);
+
+    // Créer une nouvelle instance de Date avec l'heure et les minutes spécifiées
+    date.setHours(heureNum);
+    date.setMinutes(minutesNum);
+
+    return date;
+}
+

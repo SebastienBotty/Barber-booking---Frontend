@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import './barberSchedule'
-import { convertDecimalToTime } from '../../utilityFunctions/dates'
+import { convertDecimalToTime,createDateFromTimeString } from '../../utilityFunctions/dates'
 import DateContext from '../../screens/appointment/appointment'
+
+import './barberSchedule.css'
 
 function BarberSchedule(props) {
 
@@ -9,7 +11,6 @@ function BarberSchedule(props) {
 
 
 
-   
                     
     const firstClient = 9 // In hours
     const lastClient= 18 // In hours
@@ -19,10 +20,28 @@ function BarberSchedule(props) {
 
     const [appointmentTime, setAppointmentTime] = useState([])
 
-    const [appointmentsBarber, setAppointmentsBarber] = useState([])
+    const [bookedAppointments, setbookedAppointments] = useState([])
 
 
-    
+    const isDateBooked = (dateToCompare) =>{
+      
+        /*   if ( barberName==="Michael"){
+              console.log("COMPARER : " + dateToCompare)
+              console.log(new Date(dateToCompare).toISOString())
+              console.log("----------------")
+
+            
+          } */ 
+          const test = bookedAppointments.find(appointment=> new Date(appointment.date).toISOString() === new Date(dateToCompare).toISOString() )
+          if (test){
+            console.log("RDV BOOKED:"+ bookedAppointments[0].date)
+            console.log(dateToCompare + ' EST DEJA PRIS')
+          }
+
+          return test? true: false
+    }    
+
+
 
     useEffect(() => {
 
@@ -31,10 +50,8 @@ function BarberSchedule(props) {
             for ( let i = start; i <=end;i +=interval){
                 (i == breakTime)? console.log("rien"): temporaryInterval.push(i)
             }
-            //console.log(temporaryInterval + "Temporaire")
             
             const formatedTime =temporaryInterval.map(convertDecimalToTime)
-            //console.log(formatedTime)
             setAppointmentTime(formatedTime)
         }
 
@@ -45,18 +62,15 @@ function BarberSchedule(props) {
                 throw new Error('Erreur lors de la récupération des données');
               }
               const jsonData = await response.json();
+              setbookedAppointments(jsonData);
+              console.log( barberName + ':' + jsonData)
 
-              if (Object.keys(jsonData).length>0){
-                setAppointmentsBarber(jsonData);
-                console.log(jsonData)
-
-
-
-              }
             } catch (error) {
               console.error('Une erreur s\'est produite:', error);
             }
           }
+        
+
 
         createIntervals(firstClient,lastClient,intervalTime)
         fetchAppointments(barberName,dateAppointment)
@@ -70,11 +84,13 @@ function BarberSchedule(props) {
   return (
    <> 
     
-      {appointmentTime.map((time,index)=>{
-        
-        return (
-            <li className= "Book-interval" key={index}>{time}</li>
-        )
+      {appointmentTime.map((time,index)=>{  
+
+        return isDateBooked(createDateFromTimeString(dateAppointment,time))?
+         (<li className= "Book-interval-booked" key={index}>{time}</li>)
+         :
+         (<li className= "Book-interval" key={index}>{time}</li>)
+
       })}
       
       

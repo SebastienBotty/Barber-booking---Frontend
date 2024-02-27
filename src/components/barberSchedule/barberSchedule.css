@@ -1,0 +1,9 @@
+.Book-interval-booked{
+    color:red;
+    pointer-events: none;
+    
+}
+
+.Book-interval{
+    cursor: pointer;
+}

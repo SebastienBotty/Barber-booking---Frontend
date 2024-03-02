@@ -10,7 +10,7 @@ function BarberSchedule(props) {
     const {barberName,dateAppointment,selectAppointmentToBook,confirmedBooking} = props.value
     
     const firstClient = 9 // In hours
-    const lastClient= 22 // In hours and decimal
+    const lastClient= 17.5 // In hours and decimal
     const intervalTime = 0.75 // In decimal    0.5= 30min
     const breakTime= 12 // In hours
    

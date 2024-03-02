@@ -1,9 +1,58 @@
+.barberSchedule{
+    height: 100vh;
+    width: 100;
+    background-color: #1B1E26;
+    color:white;
+    display: flex;
+    align-items: center;
+
+}
+
+
+
+.Book-interval{
+    cursor: pointer;
+
+}
+.Book-interval:hover{
+    background-color: #464D50;
+
+}
+.Book-interval:focus{
+    background-color: #464D50;
+
+}
+
 .Book-interval-booked{
     color:red;
     pointer-events: none;
     
 }
 
-.Book-interval{
-    cursor: pointer;
+h4{
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-decoration:underline;
+}
+
+
+li.Book-interval, li.Book-interval-booked{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 1rem 1.5em 1rem  1.5rem;
+    margin-top: 0.25rem;
+    width: auto;
+    list-style-type: none;
+    font-size: 1rem;
+    border: 1px solid #8D8272;
+    margin: 0;
+
+}
+
+ul{
+    padding-inline-start: 0;
+    width: 10rem;
 }

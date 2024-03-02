@@ -1,46 +1,41 @@
 import React,{useState,useEffect} from 'react'
 import './barberSchedule'
-import { convertDecimalToTime,createDateFromTimeString } from '../../utilityFunctions/dates'
+import { convertDecimalToTime,createDateFromTimeString,resetSecondsAndMs } from '../../utilityFunctions/dates'
 import DateContext from '../../screens/appointment/appointment'
 
 import './barberSchedule.css'
 
 function BarberSchedule(props) {
 
-    const {barberName,dateAppointment} = props.value
-
-
-
-                    
+    const {barberName,dateAppointment,selectAppointmentToBook,confirmedBooking} = props.value
+    
     const firstClient = 9 // In hours
-    const lastClient= 18 // In hours
-    const intervalTime = 0.5 // In hours
+    const lastClient= 22 // In hours and decimal
+    const intervalTime = 0.75 // In decimal    0.5= 30min
     const breakTime= 12 // In hours
    
-
     const [appointmentTime, setAppointmentTime] = useState([])
-
     const [bookedAppointments, setbookedAppointments] = useState([])
 
-
     const isDateBooked = (dateToCompare) =>{
-      
-        /*   if ( barberName==="Michael"){
-              console.log("COMPARER : " + dateToCompare)
-              console.log(new Date(dateToCompare).toISOString())
-              console.log("----------------")
-
-            
-          } */ 
-          const test = bookedAppointments.find(appointment=> new Date(appointment.date).toISOString() === new Date(dateToCompare).toISOString() )
-          if (test){
-            console.log("RDV BOOKED:"+ bookedAppointments[0].date)
-            console.log(dateToCompare + ' EST DEJA PRIS')
-          }
-
-          return test? true: false
+        const test = bookedAppointments.find(appointment=> new Date(appointment.date).toString() === new Date(dateToCompare).toString() )
+        return test? true: false
     }    
 
+    const bookAppointment = (dateToBook)=>{
+      selectAppointmentToBook({barberName:barberName,date:dateToBook})
+  
+    }
+    //Check the time to disable ppl from booking an already passed time
+    const isTimePassed = (time) => {
+      const now = new Date().toISOString()
+ 
+      if (new Date(time).toISOString() < now){
+        return true
+      }
+      return false
+
+    }
 
 
     useEffect(() => {
@@ -63,7 +58,7 @@ function BarberSchedule(props) {
               }
               const jsonData = await response.json();
               setbookedAppointments(jsonData);
-              console.log( barberName + ':' + jsonData)
+              //console.log( barberName + ':' + jsonData)
 
             } catch (error) {
               console.error('Une erreur s\'est produite:', error);
@@ -78,23 +73,24 @@ function BarberSchedule(props) {
       return () => {
     
       }
-    }, [dateAppointment])
+    }, [dateAppointment,confirmedBooking])
     
 
   return (
-   <> 
-    
-      {appointmentTime.map((time,index)=>{  
+   <div className='barberSchedule'> 
+      <ul>
+        <h4>{barberName}</h4>
+        {appointmentTime.map((time,index)=>{  
 
-        return isDateBooked(createDateFromTimeString(dateAppointment,time))?
-         (<li className= "Book-interval-booked" key={index}>{time}</li>)
-         :
-         (<li className= "Book-interval" key={index}>{time}</li>)
+          return (isDateBooked(createDateFromTimeString(dateAppointment,time)) || isTimePassed(createDateFromTimeString(dateAppointment,time)))?
+          (<li className= "Book-interval-booked"   key={index} tabIndex={0}></li>)
+          :
+          (<li className= "Book-interval" onClick={()=>{
+            bookAppointment(createDateFromTimeString(dateAppointment,time))}} key={index} tabIndex={0}>{time}</li>)
 
-      })}
-      
-      
-    </>
+        })}
+      </ul>
+    </div>
   )
 }
 

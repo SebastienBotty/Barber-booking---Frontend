@@ -1,24 +1,58 @@
 import React,{useState,useEffect} from 'react'
 import Calendar from 'react-calendar'
+import { ArrowForwardOutline,ArrowBackOutline } from 'react-ionicons'
+import { Link } from 'react-router-dom';
+
 
 import BarberSchedule from '../../components/barberSchedule/barberSchedule'
+import AppointmentConfirmation from '../../components/appointmentConfirmation/appointmentConfirmation';
+
 
 import './appointment.css'
+import './calendar.css'
 
 
 
 function Appointment() {
 
-    const [selectedDate, setSelectedDate] = useState(new Date())
-    
+    const today= new Date()
+    today.setHours(0)
+    today.setSeconds(0)
+    today.setMilliseconds(0)
+
+    const now = new Date()
+    const [selectedDate, setSelectedDate] = useState(today)
     const [barbers, setBarbers] = useState([])
+    const [appointmentToBook, setAppointmentToBook] = useState(null)
+    const [confirmedBooking, setConfirmedBooking] = useState(false) // Swap everytime a booking is confirmed to refresh barberSchedule component, value has no meaning
 
 
     const handleClickDay= (date)=>{
-            setSelectedDate(date)
-      }
+      console.log(date)
+      setSelectedDate(date)
+      
+    }
 
-      useEffect(() => {
+    const changeAppointmentToBook = (date) =>{
+      setAppointmentToBook(date)
+    }
+
+    const refreshScheduleOnConfirmedBooking = () =>{
+      setConfirmedBooking(!confirmedBooking)
+    }
+
+    const tileDisabled = ({ date, view }) => {
+      // Désactiver les dates passées
+     /*  if (date < new Date()) {
+        return true;
+      } */
+      if(date.getDay()===0){
+        return true
+      }
+      return false;
+    };
+
+    useEffect(() => {
       
         const fetchBarbers = async () => {
           try {
@@ -32,8 +66,7 @@ function Appointment() {
             console.error('Une erreur s\'est produite:', error);
           }
         }
-
-        setSelectedDate(new Date())
+        console.log(today)
         fetchBarbers()
 
         return () => {
@@ -41,19 +74,34 @@ function Appointment() {
       }, [])
       
   return (
-    <>
-        <header><Calendar onClickDay={(value,event)=>handleClickDay(value)}/></header>
-          <main>
-              {barbers.map((barber)=>{
-                return (
-                  <>
-                    <ul key={barber.name}>{barber.name}</ul>
-                    <BarberSchedule value={{barberName :barber.name,dateAppointment:selectedDate}}/>
-                  </>
-                )
-              })}
-          </main>
-    </>    
+    <div className='appointment-page'>
+      
+        <div className='left-side'>
+          <div className='left-side-centered-div'>
+            <Calendar 
+            onClickDay={(value,event)=>handleClickDay(value)} 
+            tileDisabled={tileDisabled}
+            id="calendar"/>
+          </div>
+        </div>
+        <div className="center-div">
+          <div className='schedule-display'>
+                {barbers.map((barber)=>{
+                  return (
+                    <>
+                      <BarberSchedule value={{barberName :barber.name,dateAppointment:selectedDate,selectAppointmentToBook:changeAppointmentToBook,confirmedBooking:confirmedBooking}}/>
+                    </>
+                  )
+                })}
+          </div>
+        </div>  
+        <div className='right-side'>
+
+          {appointmentToBook&&
+          <AppointmentConfirmation appointmentInfos={appointmentToBook} confirmedBooking={refreshScheduleOnConfirmedBooking}/>}
+          
+        </div>
+    </div>    
   )
 }
 

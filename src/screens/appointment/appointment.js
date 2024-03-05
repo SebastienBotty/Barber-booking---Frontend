@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import Calendar from 'react-calendar'
-import { ArrowForwardOutline,ArrowBackOutline } from 'react-ionicons'
 import { Link } from 'react-router-dom';
 
 

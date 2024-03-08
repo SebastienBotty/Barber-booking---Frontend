@@ -1,14 +1,18 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
+import { CheckmarkCircleOutline,AlertCircleOutline } from 'react-ionicons'
 
-import "./appointmentConfirmation.css"
 import { formatTimeText } from '../../utilityFunctions/dates'
 import { errorMsgHandler } from '../../utilityFunctions/errorAPIHandler'
+
+import "./appointmentConfirmation.css"
+
 
 function AppointmentConfirmation(props) {
   const {barberName,date} = props.appointmentInfos
   const confirmedBooking = props.confirmedBooking
   const [clientName, setClientName] = useState('')
-  const [loading, setloading] = useState(false)
+  const [status, setStatus] = useState('progressing')
+  const [errorMsg, setErrorMsg] = useState('')
 
  
    
@@ -23,7 +27,7 @@ function AppointmentConfirmation(props) {
       clientName:clientName,
       date: date
     }
-    setloading(true)
+    setStatus('loading')
     try {
       const response = await fetch('http://localhost:3000/api/appointment', {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -42,17 +46,22 @@ function AppointmentConfirmation(props) {
       if (!response.ok) {
         const responseData = await response.json(); // Extraire les données JSON de la réponse
         console.log(responseData)
-        errorMsgHandler(responseData.message)                                                                                                /*  TODO
+        setErrorMsg(errorMsgHandler(responseData.message))        
+        setTimeout(() => {
+          setStatus("error")
+
+        }, 1000);
+        console.log("setStatus false")
+        /*  TODO
                                                                                                   
                                                                                                   Afficher le message d'erreur */
-        setTimeout(()=>setloading(false),1000)
         throw new Error(`Erreur lors de la requête: ${response.status}`);
       }
   
       const responseData = await response.json(); // Extraire les données JSON de la réponse
       console.log('Réponse:', responseData);
       setTimeout(()=>{
-        setloading(false)
+        setStatus("success")
         confirmedBooking()
       },1000)
 
@@ -62,6 +71,13 @@ function AppointmentConfirmation(props) {
       console.error(error.message);
     }
   }
+
+  useEffect(() => {
+    
+    setStatus('progressing')
+ 
+  }, [barberName,date])
+  
 
   return (
     <div className='booking-summary'>
@@ -85,13 +101,37 @@ function AppointmentConfirmation(props) {
       </section>
       <footer className='booking-summary-footer'>
         <form onSubmit={(e)=>confirmBooking(e)}>
-          <input type='text' required value={clientName} placeholder='Nom de la réservation' onChange={(e)=>{setClientName(e.target.value)}}/>
-          <div className='centered-div'>
-            {loading?
-              <div className='spinner'></div>
-              :
-              <button type='submit' className="confirm-button" > CONFIRMER</button>
-              }
+          {!(status=="success" || status=="error")&&<input type='text' className='input-field'required value={clientName} placeholder='Nom de la réservation' onChange={(e)=>{setClientName(e.target.value)}}/>}
+          <div className='centered-bottom-div'>
+            {(status == 'progressing')&& <button type='submit' className="confirm-button" > CONFIRMER</button>}
+            {(status == "loading")&& <div className='spinner'></div>}
+            {(status == "success")&& 
+              <div className='confirmed-booking'>
+                <div className='confirmed-booking-ionIcons'>
+                  <CheckmarkCircleOutline
+                    color={'#638064'} 
+                    height="1.75rem"
+                    width="1.75rem"
+                  />
+                </div>
+                <div className='confirmed-booking-text-container'>
+                  Rendez-vous confirmé.
+                </div>
+              </div>}
+            {(status =="error")&&
+              <div className='error-booking'>
+                <div className='error-booking-ionIcons'>
+                  <AlertCircleOutline
+                      color={'#6E3434'} 
+                      height="1.75rem"
+                      width="1.75rem"
+                    />
+                  </div>
+                  <div className='error-booking-text-container'>
+                    {errorMsg}
+                  </div>
+                </div>}
+            
           </div>
         </form>
        </footer>

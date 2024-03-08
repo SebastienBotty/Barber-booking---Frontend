@@ -1,15 +1,11 @@
 export const errorMsgHandler = (message) =>{
-    console.log("gg")
-    const msgToReturn = ""
-    console.log(message.includes("E"))
+  
     switch(true){
         case message.includes('E1100'):
-            msgToReturn= "Ce rendez-vous est déja pris."
+            return "Rdv indisponible, rafraichissez la page."
 
         case message.includes("Date dépassée"):
-            msgToReturn= "Cette date est déja passée"
-            
+            return "Date dépassée"
+
     }
-    console.log(msgToReturn)
-    return msgToReturn
 }

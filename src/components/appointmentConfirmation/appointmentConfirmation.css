@@ -6,12 +6,17 @@
     padding: 1rem;
     color:white;
     box-shadow: 0px 8px 12px rgba(0, 0, 0, 1); /* Augmentation de la taille de l'ombre */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
 .booking-summary-footer{
-  height: fit-content;
+  display: flex;
+  height: 5rem;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+
 }
 
 .booking-summary-footer>{
@@ -23,12 +28,37 @@
   font-size:1.35rem;
 }
 
-.centered-div{
+.centered-bottom-div{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   padding-top: 1.5rem ;
 }
+
+.confirmed-booking{
+  background-color: #EDF7ED;
+  color:#638064;
+  width: 100%;
+  height: auto;
+  padding: 0.5rem 0.75rem 0.5rem 0rem;
+  font-size:1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.confirmed-booking-ionIcons{
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+.confirmed-booking-text-container{
+  flex:1;
+}
+
 
 .confirm-button {
     position: relative;
@@ -103,12 +133,44 @@
     -moz-transition: box-shadow 0.2s ease-in;
     transition: box-shadow 0.2s ease-in;
   }
+
+ 
+  
+  .error-booking{
+    background-color: #FDEDED;
+    color:#6E3434;
+    width: 100%;
+    height: auto;
+    padding: 0.5rem 0.75rem 0.5rem 0rem;
+    font-size:1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+
+  }
+  
+  .error-booking-ionIcons{
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+  .error-booking-text-container{
+    flex:1;
+  }
   
 
 h2{
     text-align: center;
 }
 
+.input-field{
+  height: 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
 .spinner {
   width: 2rem;
   height: 2rem;

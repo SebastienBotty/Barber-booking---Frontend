@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import './barberSchedule'
-import { convertDecimalToTime,createDateFromTimeString,resetSecondsAndMs } from '../../utilityFunctions/dates'
-import DateContext from '../../screens/appointment/appointment'
+import { convertDecimalToTime,createDateFromTimeString } from '../../utilityFunctions/dates'
 
 import './barberSchedule.css'
 
@@ -43,7 +42,7 @@ function BarberSchedule(props) {
         const createIntervals = (start,end,interval)=>{
             const temporaryInterval= []
             for ( let i = start; i <=end;i +=interval){
-                (i == breakTime)? console.log("rien"): temporaryInterval.push(i)
+                (i === breakTime)? console.log("rien"): temporaryInterval.push(i)
             }
             
             const formatedTime =temporaryInterval.map(convertDecimalToTime)

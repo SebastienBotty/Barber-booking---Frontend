@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import Calendar from 'react-calendar'
-import { Link } from 'react-router-dom';
 
 
 import BarberSchedule from '../../components/barberSchedule/barberSchedule'
@@ -19,7 +18,6 @@ function Appointment() {
     today.setSeconds(0)
     today.setMilliseconds(0)
 
-    const now = new Date()
     const [selectedDate, setSelectedDate] = useState(today)
     const [barbers, setBarbers] = useState([])
     const [appointmentToBook, setAppointmentToBook] = useState(null)
@@ -69,7 +67,6 @@ function Appointment() {
             console.error('Une erreur s\'est produite:', error);
           }
         }
-        console.log(today)
         fetchBarbers()
 
         return () => {

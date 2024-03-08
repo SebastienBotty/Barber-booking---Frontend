@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { CheckmarkCircleOutline,AlertCircleOutline } from 'react-ionicons'
 
 import { formatTimeText } from '../../utilityFunctions/dates'
-import { errorMsgHandler } from '../../utilityFunctions/errorAPIHandler'
+import { errorPostAppointmentHandler } from '../../utilityFunctions/errorAPIHandler'
 
 import "./appointmentConfirmation.css"
 import "../loadingSpinner/loadingSpinner.css"
@@ -48,7 +48,7 @@ function AppointmentConfirmation(props) {
       if (!response.ok) {
         const responseData = await response.json(); // Extraire les données JSON de la réponse
         console.log(responseData)
-        setErrorMsg(errorMsgHandler(responseData.message))        
+        setErrorMsg(errorPostAppointmentHandler(responseData.message))        
         setTimeout(() => {
           setStatus("error")
 
@@ -103,11 +103,11 @@ function AppointmentConfirmation(props) {
       </section>
       <footer className='booking-summary-footer'>
         <form onSubmit={(e)=>confirmBooking(e)}>
-          {!(status=="success" || status=="error")&&<input type='text' className='input-field'required value={clientName} placeholder='Nom de la réservation' onChange={(e)=>{setClientName(e.target.value)}}/>}
+          {!(status==="success" || status==="error")&&<input type='text' className='input-field'required value={clientName} placeholder='Nom de la réservation' onChange={(e)=>{setClientName(e.target.value)}}/>}
           <div className='centered-bottom-div'>
-            {(status == 'progressing')&& <button type='submit' className="confirm-button" > CONFIRMER</button>}
-            {(status == "loading")&& <LoadingSpinner/>}
-            {(status == "success")&& 
+            {(status === 'progressing')&& <button type='submit' className="confirm-button" > CONFIRMER</button>}
+            {(status === "loading")&& <LoadingSpinner/>}
+            {(status === "success")&& 
               <div className='confirmed-booking'>
                 <div className='confirmed-booking-ionIcons'>
                   <CheckmarkCircleOutline
@@ -120,7 +120,7 @@ function AppointmentConfirmation(props) {
                   Rendez-vous confirmé.
                 </div>
               </div>}
-            {(status =="error")&&
+            {(status ==="error")&&
               <div className='error-booking'>
                 <div className='error-booking-ionIcons'>
                   <AlertCircleOutline

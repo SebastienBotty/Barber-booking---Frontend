@@ -1,4 +1,4 @@
-export const errorMsgHandler = (message) =>{
+export const errorPostAppointmentHandler = (message) =>{
   
     switch(true){
         case message.includes('E1100'):
@@ -6,6 +6,7 @@ export const errorMsgHandler = (message) =>{
 
         case message.includes("Date dépassée"):
             return "Date dépassée"
-
+        default:
+            return "Erreur innatendue"
     }
 }

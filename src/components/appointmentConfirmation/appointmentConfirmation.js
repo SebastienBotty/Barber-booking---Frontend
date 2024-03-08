@@ -5,6 +5,8 @@ import { formatTimeText } from '../../utilityFunctions/dates'
 import { errorMsgHandler } from '../../utilityFunctions/errorAPIHandler'
 
 import "./appointmentConfirmation.css"
+import "../loadingSpinner/loadingSpinner.css"
+import LoadingSpinner from '../loadingSpinner/loadingSpinner'
 
 
 function AppointmentConfirmation(props) {
@@ -104,7 +106,7 @@ function AppointmentConfirmation(props) {
           {!(status=="success" || status=="error")&&<input type='text' className='input-field'required value={clientName} placeholder='Nom de la réservation' onChange={(e)=>{setClientName(e.target.value)}}/>}
           <div className='centered-bottom-div'>
             {(status == 'progressing')&& <button type='submit' className="confirm-button" > CONFIRMER</button>}
-            {(status == "loading")&& <div className='spinner'></div>}
+            {(status == "loading")&& <LoadingSpinner/>}
             {(status == "success")&& 
               <div className='confirmed-booking'>
                 <div className='confirmed-booking-ionIcons'>

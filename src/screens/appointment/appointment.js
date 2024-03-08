@@ -25,6 +25,8 @@ function Appointment() {
     const [appointmentToBook, setAppointmentToBook] = useState(null)
     const [confirmedBooking, setConfirmedBooking] = useState(false) // Swap everytime a booking is confirmed to refresh barberSchedule component, value has no meaning
 
+    const closedDay= 0   // (Sunday=0,Monday=1,Tuesday=2,...)
+
 
     const handleClickDay= (date)=>{
       console.log(date)
@@ -41,11 +43,13 @@ function Appointment() {
     }
 
     const tileDisabled = ({ date, view }) => {
+      const yesterday = new Date(today)
+      yesterday.setDate(today.getDate()-1)
       // Désactiver les dates passées
-     /*  if (date < new Date()) {
+      if (date < yesterday) {
         return true;
-      } */
-      if(date.getDay()===0){
+      }
+      if(date.getDay()===closedDay){
         return true
       }
       return false;

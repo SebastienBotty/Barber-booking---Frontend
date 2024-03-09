@@ -1,12 +1,23 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import { auth } from '../../firebase';
 
 import SignIn from '../../adminComponents/auth/signIn/signIn'
 import Sidebar from '../../adminComponents/sideBar/sideBar';
 
+import './adminDashboard.css'
+
 
 function AdminDashboard() {
     const [user, setUser] = useState(null);
+
+    const pricesRef = useRef(null);
+    const barbersRef = useRef(null);
+    const shopInfosRef = useRef(null);
+    const scheduleRef = useRef(null);
+
+    const scrollToSection = (ref) => {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    };
 
   useEffect(() => {
     const authSubscribe = auth.onAuthStateChanged(user => {
@@ -25,7 +36,18 @@ function AdminDashboard() {
    <>
         {user ? 
             <>
-              <Sidebar disconnect={handleSignOut}/>
+               <Sidebar 
+                disconnect={ ()=>handleSignOut()}
+                scrollToPrices={() => scrollToSection(pricesRef)}
+                scrollToBarbers={() => scrollToSection(barbersRef)}
+                scrollToInfos={() => scrollToSection(shopInfosRef)}
+                scrollToSchedule={() => scrollToSection(scheduleRef)}
+              />
+              <div className='yo'ref={pricesRef}>Prix</div>
+              <div className='yo'ref={barbersRef}>Coiffeurs</div>
+              <div className='yo' ref={shopInfosRef}>Infos</div>
+              <div className='yo' ref={scheduleRef}>Plannings</div>
+
             </>
             : 
             <SignIn/>

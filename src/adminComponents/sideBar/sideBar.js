@@ -6,24 +6,13 @@ import { PricetagOutline,TimeOutline,PeopleOutline, InformationOutline } from 'r
 import './sideBar.css';
 
 function Sidebar(props){
-  const prices = useRef(null);
-  const barbers = useRef(null);
-  const shopInfos = useRef(null);
-  const schedule = useRef(null);
 
-  const handleSignOut = () => {
-    auth.signOut();
-  };
-
-
-  const scrollToSection = (ref) => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
-  };
+console.log(props)
 
   return (
     <div className="sidebar">
       <ul>
-        <li onClick={() => scrollToSection(prices)}>
+        <li onClick={() => props.scrollToPrices()}>
         <div className='li-ionIcons-left-side'>
                 <PricetagOutline
                     color={'#fff'} 
@@ -34,7 +23,7 @@ function Sidebar(props){
             Prix 
            
         </li>
-        <li onClick={() => scrollToSection(barbers)}>
+        <li onClick={() => props.scrollToBarbers()}>
             <div className='li-ionIcons-left-side'>
                     <PeopleOutline
                         color={'#fff'} 
@@ -44,7 +33,7 @@ function Sidebar(props){
             </div>
             Coiffeurs 
         </li>
-        <li onClick={() => scrollToSection(shopInfos)}>
+        <li onClick={() => props.scrollToInfos()}>
         <div className='li-ionIcons-left-side'>
                 <InformationOutline
                     color={'#fff'} 
@@ -54,7 +43,7 @@ function Sidebar(props){
         </div>
             Infos 
         </li>
-        <li onClick={() => scrollToSection(schedule)}>
+        <li onClick={() => props.scrollToSchedule()}>
         <div className='li-ionIcons-left-side'>
                 <TimeOutline
                     color={'#fff'} 

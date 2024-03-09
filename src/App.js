@@ -5,6 +5,7 @@ import './App.css';
 import Appointment from './screens/appointment/appointment'
 import HomePage from "./screens/homePage/homePage";
 import AppointmentConfirmation from "./components/appointmentConfirmation/appointmentConfirmation";
+import AdminDashboard from "./screens/adminDashboard/adminDashboard";
 
 
 
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<HomePage/>}/>
           <Route path="appointment" element={<Appointment/>}/>
           <Route path="appointmentConfirmation/" element = {<AppointmentConfirmation/>}/>
+          <Route path="dashboard" element={<AdminDashboard/>}/>
       </Routes>
     </BrowserRouter>
   );

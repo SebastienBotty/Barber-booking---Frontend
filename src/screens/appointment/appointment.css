@@ -2,17 +2,14 @@
     display: flex;
 
 }
-
-body{
+.appointment-page body{
     background-image: url('../../../public/barber-shop-pic.png');
     background-size: cover; /* Pour couvrir toute la zone du body */
     background-position: center; /* Centrer l'image */
     background-repeat: no-repeat; /* Pour ne pas répéter l'image */
     backdrop-filter: blur(5px); /* La valeur de flou en pixels */
-}
-
-
-  
+    background-attachment: fixed
+  }
 
 .center-div{
     width: 60vw;

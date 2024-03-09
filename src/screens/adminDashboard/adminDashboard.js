@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import { auth } from '../../firebase';
 
-import SignIn from '../../components/auth/signIn/signIn'
+import SignIn from '../../adminComponents/auth/signIn/signIn'
+import Sidebar from '../../adminComponents/sideBar/sideBar';
 
 
 function AdminDashboard() {
@@ -16,15 +17,20 @@ function AdminDashboard() {
   }, []);
 
   const handleSignOut = () => {
-    console.log(user)
     auth.signOut();
   };
     
     return (
 
    <>
-        {user? <button onClick={handleSignOut}>Deco</button> : <SignIn/>}
-   </>
+        {user ? 
+            <>
+              <Sidebar disconnect={handleSignOut}/>
+            </>
+            : 
+            <SignIn/>
+        }
+    </>
   )
 }
 

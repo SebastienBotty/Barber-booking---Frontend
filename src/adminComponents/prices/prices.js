@@ -139,7 +139,7 @@ function Prices() {
                 const sortedData = jsonData.toSorted((a,b)=>{return a.cutName.localeCompare(b.cutName)})
     
                 setServices(sortedData)
-                console.log(splitArray(sortedData))
+                splitArray(sortedData)
             } catch (err) {
                 console.error('Une erreur s\'est produite:', err);
             }

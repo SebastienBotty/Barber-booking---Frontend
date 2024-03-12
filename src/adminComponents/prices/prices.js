@@ -9,7 +9,7 @@ function Prices() {
     const [columns, setColumns] = useState([])
     const [isVisible, setIsVisible] = useState(false);
     const [newService, setNewService] = useState('')
-    const [newServicePrice, setNewServicePrice] = useState(null)
+    const [newServicePrice, setNewServicePrice] = useState(undefined)
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [refreshIncrement, setRefreshIncrementer] = useState(false) // Variable that switches everytime a POST is successful to refresh useEffect
     const [services, setServices] = useState([])
@@ -186,7 +186,7 @@ function Prices() {
 
                 {columns.map((column,index)=>{
                     return (
-                    <ul className='columns-prices'>
+                    <ul className='columns-prices' key={index}>
                         {column.map((item)=>{
                             return (
                                 <li className="list-prices-item" key={item.cutName} onClick={e=>handleClick(e,item)} >

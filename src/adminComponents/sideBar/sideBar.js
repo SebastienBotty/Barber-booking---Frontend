@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { auth } from '../../firebase';
-import { PricetagOutline,TimeOutline,PeopleOutline, InformationOutline } from 'react-ionicons'
+import { PricetagOutline,TimeOutline,PeopleOutline,ExitOutline, InformationOutline } from 'react-ionicons'
 
 
 import './sideBar.css';
@@ -55,7 +55,15 @@ console.log(props)
         </li>
       </ul>
       <div className='footer-sidebar'>
-         <li  onClick={() => props.disconnect()}>Déconnexion </li>
+         <li  onClick={() => props.disconnect()}>
+         <div className='li-ionIcons-left-side'>
+                <ExitOutline
+                    color={'#fff'} 
+                    height="1.5rem"
+                    width="1.5rem"
+                />
+        </div>
+          Déconnexion </li>
       </div>
     </div>
   );

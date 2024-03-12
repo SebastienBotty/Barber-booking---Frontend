@@ -1,15 +1,18 @@
 .li-ionIcons-left-side{
     float: left;
-    margin-right:  1rem;
+    margin-right:  10%;
+
 }
 .sidebar {
-    width: 12.5rem; 
+    width: 10vw; 
     background-color: #333;
     color: #fff;
     height: 100vh;
     position: sticky;
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    z-index: 1;
   }
 
   
@@ -21,6 +24,7 @@
     text-align: center;
     border-bottom: 1px transparent solid;
     display: flex;
+    align-items: center;
   }
   
   .sidebar li:hover {
@@ -31,11 +35,19 @@
     position: absolute;
     bottom: 0;
     list-style-type: none;
+    padding: 1rem; 
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 1px transparent solid;
+    display: flex;
+    align-items: center;
     width: 100%;
   }
 
   .sidebar .footer-sidebar li{
     justify-content: center;
+    width: 100%;
 }
 .sidebar .footer-sidebar li:hover{
     background-color: #555;

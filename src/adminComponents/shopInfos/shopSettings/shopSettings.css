@@ -1,0 +1,48 @@
+
+#btn-form-shop-settings{
+    font-size: large;
+    padding: 0.5rem 2.5rem;
+    border-radius: 0.5rem;
+
+}
+.shop-confirmation-message{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+}
+.shop-confirmation-message#success{
+    background-color: #EDF7ED;
+    color:#638064;
+}
+.shop-confirmation-message#error{
+    background-color: #FDEDED;
+    color:#6E3434;
+}
+.confirmation-form-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2.5rem;
+}
+.shop-form> div{
+    margin-top: 1.25rem;
+    font-size: large;
+}
+.shop-form input, .shop-form select{
+    float: right;
+    height: 1.5rem;
+    
+}
+
+.shop-form{
+    padding: 2rem 1rem ;
+    width: 50%;
+    height: 40vh;
+    margin: 2rem auto;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);    
+    border-radius: 2.5rem;
+}

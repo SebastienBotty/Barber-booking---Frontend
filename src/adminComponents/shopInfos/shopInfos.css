@@ -1,0 +1,9 @@
+.shop-infos{
+    height: 100vh;
+    display: flex;
+}
+
+.shop-infos-side{
+    flex:1;
+    border: 1px solid black;
+}

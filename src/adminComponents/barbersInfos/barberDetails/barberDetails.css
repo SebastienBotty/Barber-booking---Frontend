@@ -1,0 +1,125 @@
+.barber-details{
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);    
+        border-radius: 1.5rem ;
+        width: 17.5vw;
+        height: 50vh;
+        justify-content: center;
+        background-color: antiquewhite;
+        display: inline-block;
+        overflow: hidden;
+}
+
+.barber-details .img-container img{
+    width: 50%; /* pour s'assurer que l'image remplit la div */
+    height: auto; /* pour maintenir le rapport hauteur/largeur de l'image */
+    border-radius: 50%; 
+}
+
+.barber-details .img-container{
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+}
+
+
+.barber-details-text-container{
+    text-align: center;
+    height: 100%;
+    
+}
+
+.barber-name{
+    font-size: large;
+    font-weight: bold;
+}
+.barber-specialties{
+    margin:  10% auto;
+    overflow-wrap: break-word; /* Pour les navigateurs modernes */
+    white-space: normal;
+    width: 60%;
+    display: block;
+
+}
+#cancel-delete{
+    background-color: rgb(244,67,54);
+}
+#confirm-delete{
+    background-color: #04AA6D;
+}
+
+.confirm-delete-text{
+    padding-top: 2rem;
+    text-align: center;
+    font-size: large;
+    font-weight:bolder;
+
+}
+
+.confirm-buttons-zone{
+    margin-top: 2rem;
+    display: flex;
+    justify-content:space-evenly;
+}
+
+.delete-button{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    color:white;
+    border-radius: 0.5rem;
+
+}
+.hidden-msg-info{
+    display: none;
+    position: absolute;
+    top: 100;
+    font-size:x-small;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);    
+    padding: 0.25rem;
+    background-color: #fefefe;
+}
+
+.ion-icons{
+    cursor: pointer;
+    border-radius: 50%;
+    width: fit-content;
+    transition: all 0.3s ease;
+
+}
+
+.ion-icons:hover{
+    color:blue;
+    transform: scale(1.25);
+
+}
+
+.options-top{
+    display: flex;
+    width: 100%;
+    padding-top: 0.25rem;
+}
+
+.options-top-left{
+    float: left;
+    width: 50%;
+    justify-content:left;
+    padding-left: 0.25rem;
+    padding-top: 0.25rem;
+}
+.options-top-right{
+    float: right;
+    width: 50%;
+    display: flex;
+    justify-content: right;
+    padding-right: 0.25rem;
+}
+.options-top-left .ion-icons:hover+ .hidden-msg-info{
+    display: block;
+}
+.options-top-right .test .ion-icons:hover+ .hidden-msg-info{
+    display: block;
+}
+
+
+

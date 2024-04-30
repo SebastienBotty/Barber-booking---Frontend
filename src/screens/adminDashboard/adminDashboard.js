@@ -4,6 +4,7 @@ import { auth } from '../../firebase';
 import SignIn from '../../adminComponents/auth/signIn/signIn'
 import Sidebar from '../../adminComponents/sideBar/sideBar';
 import Prices from '../../adminComponents/prices/prices';
+import BarbersInfos from '../../adminComponents/barbersInfos/barbersInfos';
 
 import './adminDashboard.css'
 
@@ -47,7 +48,7 @@ function AdminDashboard() {
                 />
                 <div className='content-container'>
                   <div ref={pricesRef}><Prices /></div>
-                  <div className='yo'ref={barbersRef}>Coiffeurs</div>
+                  <div ref={barbersRef}><BarbersInfos/></div>
                   <div className='yo' ref={shopInfosRef}>Infos</div>
                   <div className='yo' ref={scheduleRef}>Plannings</div>
                 </div>

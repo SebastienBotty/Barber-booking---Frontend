@@ -1,0 +1,50 @@
+.add-barber-zone{
+  width: 50%;
+  height: fit-content;
+  margin: 0 auto ;
+  display: flex;
+  justify-content: center;
+}
+
+
+.barber-infos{
+    border: 1px solid red;
+    width: 90vw;
+    min-height: 55vh;
+    padding: 1.5rem 0;
+}
+.barbers-display-container{
+  margin: 5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+#btn-add-barber{
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  font-size: large;
+}
+
+.modal-add-barber {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.5); /* Fond semi-transparent */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button{
+    cursor: pointer;
+  }
+  
+ 
+  
+ 

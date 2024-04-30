@@ -81,21 +81,15 @@ function Prices() {
             if (!response.ok) {
                 const responseData = await response.json(); // Extraire les données JSON de la réponse
                 console.log(responseData)
-                setTimeout(() => {
-                    setStatus("error")
-          
-                  }, 1000);
+                setStatus("error")
                   /*  TODO
                                                                                                             
                                                                                                             Afficher le message d'erreur */
                   throw new Error(`Erreur lors de la requête: ${response.status}`);
             }
-            setTimeout(()=>{
-              setStatus("success")
-              refreshPriceList()
-              resetFormValues()
-            },1000)
-      
+            setStatus("success")
+            refreshPriceList()
+            resetFormValues()
             return true
           }
           catch (error) {
@@ -204,11 +198,9 @@ function Prices() {
         </section>
         {isVisible && (
             <div className='modal-overlay'  onClick={()=>closeModal()}>
-                <div className="modal" style={{ top: position.y, left: position.x ,zIndex:2}} onClick={()=>null}>
-                    <div className="modal-content">
-                        <span className="close" onClick={closeModal}>
-                        <b>&times;</b>
-                        </span>
+                <div className="modal" style={{ position:'absolute',top: position.y, left: position.x}}>
+                    <div className="modal-content" style={{width:"auto",height:"auto",padding:"0.5rem",backgroundColor:"lightgray"}}>
+
                         <button  className="modal-delete-button" onClick={()=>deleteService()}> SUPPRIMER </button>
                     </div>
                 </div>

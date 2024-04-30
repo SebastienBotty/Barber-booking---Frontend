@@ -68,7 +68,7 @@ function BarbersInfos() {
         <div className='barbers-display-container'>
           {barbers.map(barber=>{
             return (
-              <BarberDetails barber={barber} updateBarbersList={handleUpdateList} toggleEditModal={toggleEditModal}/>
+              <BarberDetails key={barber.name} barber={barber} updateBarbersList={handleUpdateList} toggleEditModal={toggleEditModal}/>
             )
           })}
         </div>

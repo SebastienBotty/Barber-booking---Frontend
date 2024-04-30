@@ -10,6 +10,16 @@ function Sidebar(props){
   return (
     <div className="sidebar">
       <ul>
+      <li onClick={() => props.scrollToInfos()}>
+        <div className='li-ionIcons-left-side'>
+                <InformationOutline
+                    color={'#fff'} 
+                    height="1.5rem"
+                    width="1.5rem"
+                />
+        </div>
+            Infos 
+        </li>
         <li onClick={() => props.scrollToPrices()}>
         <div className='li-ionIcons-left-side'>
                 <PricetagOutline
@@ -30,16 +40,6 @@ function Sidebar(props){
                     />
             </div>
             Coiffeurs 
-        </li>
-        <li onClick={() => props.scrollToInfos()}>
-        <div className='li-ionIcons-left-side'>
-                <InformationOutline
-                    color={'#fff'} 
-                    height="1.5rem"
-                    width="1.5rem"
-                />
-        </div>
-            Infos 
         </li>
         <li onClick={() => props.scrollToSchedule()}>
         <div className='li-ionIcons-left-side'>

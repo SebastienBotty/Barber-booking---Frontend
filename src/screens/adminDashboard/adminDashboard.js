@@ -5,6 +5,7 @@ import SignIn from '../../adminComponents/auth/signIn/signIn'
 import Sidebar from '../../adminComponents/sideBar/sideBar';
 import Prices from '../../adminComponents/prices/prices';
 import BarbersInfos from '../../adminComponents/barbersInfos/barbersInfos';
+import ShopInfos from '../../adminComponents/shopInfos/shopInfos';
 
 import './adminDashboard.css'
 
@@ -47,9 +48,9 @@ function AdminDashboard() {
                   scrollToSchedule={() => scrollToSection(scheduleRef)}
                 />
                 <div className='content-container'>
+                  <div ref={shopInfosRef}><ShopInfos/></div>
                   <div ref={pricesRef}><Prices /></div>
                   <div ref={barbersRef}><BarbersInfos/></div>
-                  <div className='yo' ref={shopInfosRef}>Infos</div>
                   <div className='yo' ref={scheduleRef}>Plannings</div>
                 </div>
               </div>

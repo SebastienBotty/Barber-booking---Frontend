@@ -4,6 +4,10 @@ import "./shopSettings.css"
 
 function ShopSettings() {
     const [address, setAddress] = useState('')
+    const [appointmentDuration, setAppointmentDuration] = useState(45)
+    const [lunchTime, setLunchTime] = useState('12:00')
+    const [lunchTimeDuration, setLunchTimeDuration] = useState(30)
+    const [isChecked, setIsChecked] = useState()
     const [mail, setMail] = useState('')
     const [shopName, setShopName] = useState("")
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -20,7 +24,9 @@ function ShopSettings() {
             shopAddress:address,
             shopPhoneNumber:phoneNumber,
             shopMail:mail,
-            openingTime:openingTime
+            openingTime:openingTime,
+            appointmentDuration:appointmentDuration,
+            lunch:isChecked?{time:lunchTime,duration:lunchTimeDuration}:{time:"",duration:0}
         }
         try {
             const response = await fetch('http://localhost:3000/api/shopInfos', {
@@ -42,10 +48,10 @@ function ShopSettings() {
               }
               const responseData = await response.json()
               console.log("Shop crée ! " + responseData)
-              setIsShopExisting(true)
               setStatus("success")
                 setTimeout(() => {
                     setStatus("progressing")
+                    setIsShopExisting(true)
                 }, 2000);
         } catch (error) {
             console.error("Erreur : " + error.message)
@@ -53,13 +59,21 @@ function ShopSettings() {
     }
 
     const editShop = async()=>{
+        console.log(isChecked)
+        let lunchData = isChecked?{time:lunchTime,duration:lunchTimeDuration}:{time:"",duration:0}
+        console.log("------")
+        console.log(lunchData)
         const postData={
             shopName:shopName,
             shopAddress:address,
             shopPhoneNumber:phoneNumber,
             shopMail:mail,
-            openingTime:openingTime
+            openingTime:openingTime,
+            appointmentDuration:appointmentDuration,
+            lunch:lunchData
         }
+        console.log("postDATA")
+        console.log(postData)
         try {
             const response = await fetch('http://localhost:3000/api/shopInfos', {
               method: 'PATCH',
@@ -75,7 +89,8 @@ function ShopSettings() {
             }
         
             const data = await response.json();
-            console.log("Modifié! avec succès" + data);
+            console.log("Modifié! avec succès" );
+            console.log(data)
             setStatus("success")
             setTimeout(() => {
                 setStatus("progressing")
@@ -112,6 +127,7 @@ function ShopSettings() {
     const handleAddressChange = (e)=>{
         setAddress(e.target.value)
     }
+
 
     const handleForm = (e)=>{
         e.preventDefault()
@@ -160,6 +176,12 @@ function ShopSettings() {
                 setMail(jsonData.shopMail)
                 setPhoneNumber(jsonData.shopPhoneNumber)
                 setOpeningTime(jsonData.openingTime)
+                setAppointmentDuration(jsonData.appointmentDuration)
+                if(jsonData.lunch.time){
+                    setIsChecked(true)
+                    setLunchTime(jsonData.lunch.time)
+                    setLunchTimeDuration(jsonData.lunch.duration)
+                }
             }
             catch (err) {
                 console.error('Une erreur s\'est produite:', err);
@@ -176,13 +198,15 @@ function ShopSettings() {
 
   return (
     <div className='shop-settings'>
-        <h2>
-            Magasin
-        </h2>
+
 
         <form className='shop-form' onSubmit={handleForm}> 
+            <h2>
+                {isShopExisting?shopName:"Magasin"}
+            </h2>
+
             <div>
-                <label htmlFor="Name">Nom du magasin</label>
+                <label htmlFor="shop-name">Nom du magasin</label>
                 <input 
                     type="text" 
                     id="shop-name" 
@@ -199,7 +223,6 @@ function ShopSettings() {
                     type="text" 
                     id="Address" 
                     name="Address" 
-                    size={30}
                     value={address}
                     onChange={handleAddressChange}
                     required
@@ -237,6 +260,44 @@ function ShopSettings() {
                     {generateClosingOptions()}
                 </select>
             </div>
+            <div>
+                <label htmlFor='appointment-duration'>Durée RDV<span style={{fontSize:'small'}}>(minutes)</span></label>
+                <select  id='appointment-duration' name='appointment-duration' type='number' required value={appointmentDuration} onChange={(e)=>setAppointmentDuration(e.target.value)}>
+                    <option key='appointment-duration-15' value={15}>15</option>
+                    <option key='appointment-duration-20' value={20}>20</option>
+                    <option key='appointment-duration-30' value={30}>30</option>
+                    <option key='appointment-duration-40' value={40}>40</option>
+                    <option key='appointment-duration-45' value={45}>45</option>
+                    <option key='appointment-duration-60' value={60}>60</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor='lunchTime'>Pause?</label>
+                <input
+                    id='lunchTime'
+                    name='lunchTime'
+                    type='checkbox'
+                    checked={isChecked}
+                    onChange={(e)=>setIsChecked(e.target.checked)}
+                    />
+            </div>
+            {isChecked &&
+            <div className='lunch-time'>
+                <div>
+                    <label htmlFor='lunch-time'>Heure</label>
+                    <select id='lunch-time' name='lunch-time' value={lunchTime} onChange={(e)=>setLunchTime(e.target.value)}>
+                        {generateClosingOptions()}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor='lunch-time-duration'>Durée<span style={{fontSize:'small'}}>(minutes)</span></label>
+                    <select id='lunch-time-duration' name='lunch-time-duration' value={lunchTimeDuration} onChange={(e)=>setLunchTimeDuration(e.target.value)}>
+                        <option key={"lunchTime-15"} value={15}>15</option>
+                        <option key={"lunchTime-30"}value={30}>30</option>
+                        <option key={"lunchTime-45"} value={45}>45</option>
+                    </select>
+                </div>
+            </div>}
             <div className='confirmation-form-footer'>
                 {(status === "loading")&& <LoadingSpinner/>}
                 {(status === 'progressing')&&<button id="btn-form-shop-settings" type="submit">{isShopExisting? 'Modifier': "Créer"}</button>}

@@ -5,6 +5,18 @@
     border-radius: 0.5rem;
 
 }
+
+.lunch-time{
+    margin-top: 0;
+    margin: 0 0 0 2rem;
+    display: block;
+}
+.lunch-time>div{
+    margin-top: 0.5rem;
+}
+option{
+    text-align: center;
+}
 .shop-confirmation-message{
     width: 90%;
     display: flex;
@@ -28,6 +40,14 @@
     justify-content: center;
     padding-top: 2.5rem;
 }
+
+.shop-form:hover input {
+    border: 1px solid black;
+    border-radius: 0.25rem;
+}
+.shop-form:hover select {
+    border: 1px solid black;
+}
 .shop-form> div{
     margin-top: 1.25rem;
     font-size: large;
@@ -35,14 +55,30 @@
 .shop-form input, .shop-form select{
     float: right;
     height: 1.5rem;
-    
+    font-size: large;
+    text-align: right;
+    border: none;
+}
+
+.shop-form input#appointment-duration{
+    width: 3rem;
+    text-align: center;
+}
+.shop-form input#Address{
+    width: 70%;
+}
+
+.shop-form input#lunchTime{
+    margin-right: 1rem;
 }
 
 .shop-form{
-    padding: 2rem 1rem ;
     width: 50%;
-    height: 40vh;
-    margin: 2rem auto;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);    
+    height: auto;
+    margin: 5rem 2.5rem ;
     border-radius: 2.5rem;
+}
+
+.shop-settings{
+    width: 45vw;
 }

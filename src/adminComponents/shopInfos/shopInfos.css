@@ -1,9 +1,5 @@
 .shop-infos{
-    height: 100vh;
-    display: flex;
+    height: 80vh;
+    border-bottom: 2px solid black;
 }
 
-.shop-infos-side{
-    flex:1;
-    border: 1px solid black;
-}

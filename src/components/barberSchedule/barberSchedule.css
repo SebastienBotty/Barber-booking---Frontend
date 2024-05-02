@@ -52,7 +52,7 @@ li.Book-interval, li.Book-interval-booked{
 
 }
 
-ul{
+.barberSchedule ul{
     padding-inline-start: 0;
     width: 10rem;
 }

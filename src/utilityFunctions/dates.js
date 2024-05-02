@@ -1,6 +1,13 @@
 export const createDateFromTimeString = (date,timeString) =>{
     // Séparer l'heure et les minutes en utilisant la méthode split()
-    const [heureStr, minutesStr] = timeString.split('h');
+    let heureStr
+    let minutesStr
+    if (timeString.includes(":")){
+         [heureStr, minutesStr] = timeString.split(':');
+
+    }else if(timeString.includes("h")){
+         [heureStr, minutesStr] = timeString.split('h');
+    }
 
     // Convertir les chaînes de caractères en nombres
     const heureNum = parseInt(heureStr, 10);
@@ -25,6 +32,23 @@ export const convertDecimalToTime= (decimalTime) =>{
 
     return formattedTime;
 }
+
+export const convertHourToDecimal = (hour) =>{
+    const [hourStr, minuteStr] = hour.split(':'); // Séparer l'heure et les minutes
+  
+    const hourNum = parseInt(hourStr); // Convertir l'heure en nombre
+    const minuteNum = parseInt(minuteStr); // Convertir les minutes en nombre
+  
+    if (isNaN(hourNum) || isNaN(minuteNum) || hourNum < 0 || hourNum > 23 || minuteNum < 0 || minuteNum > 59) {
+      throw new Error("Le format de l'heure est incorrect.");
+    }
+  
+    let decimal = hourNum + minuteNum / 60; // Calculer le nombre décimal
+    decimal = Math.ceil(decimal * 100) / 100
+    
+    return decimal;
+  }
+
 
 export const convertToStartOfDay = (date) =>{
   

@@ -7,7 +7,7 @@ function ShopSettings() {
     const [appointmentDuration, setAppointmentDuration] = useState(45)
     const [lunchTime, setLunchTime] = useState('12:00')
     const [lunchTimeDuration, setLunchTimeDuration] = useState(30)
-    const [isChecked, setIsChecked] = useState()
+    const [isChecked, setIsChecked] = useState(false)
     const [mail, setMail] = useState('')
     const [shopName, setShopName] = useState("")
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -272,7 +272,7 @@ function ShopSettings() {
                 </select>
             </div>
             <div>
-                <label htmlFor='lunchTime'>Pause?</label>
+                <label htmlFor='lunchTime'>Pause</label>
                 <input
                     id='lunchTime'
                     name='lunchTime'
@@ -301,7 +301,7 @@ function ShopSettings() {
             <div className='confirmation-form-footer'>
                 {(status === "loading")&& <LoadingSpinner/>}
                 {(status === 'progressing')&&<button id="btn-form-shop-settings" type="submit">{isShopExisting? 'Modifier': "Créer"}</button>}
-                {(status==="success") && <div className='shop-confirmation-message' id="success">{isShopExisting?"Modifié" : "Créé"} avec succès</div>}
+                {(status==="success") && <div className='shop-confirmation-message' id="success">{isShopExisting?"Modifié" : "Créé"}</div>}
                 {(status==="error") && <div className='shop-confirmation-message' id='error' >Erreur</div>}
 
             </div>

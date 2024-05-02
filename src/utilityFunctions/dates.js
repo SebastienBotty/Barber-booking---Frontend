@@ -34,7 +34,18 @@ export const convertDecimalToTime= (decimalTime) =>{
 }
 
 export const convertHourToDecimal = (hour) =>{
-    const [hourStr, minuteStr] = hour.split(':'); // Séparer l'heure et les minutes
+    let hourStr
+    let minuteStr
+
+    if (hour.includes(':')){
+        [hourStr, minuteStr] = hour.split(':'); // Séparer l'heure et les minutes
+
+    }else if (hour.includes('h')){
+        [hourStr, minuteStr] = hour.split('h'); // Séparer l'heure et les minutes
+
+    }else{
+        throw new Error("Mauvais format. HH:mm ou HHhmm ")
+    }
   
     const hourNum = parseInt(hourStr); // Convertir l'heure en nombre
     const minuteNum = parseInt(minuteStr); // Convertir les minutes en nombre

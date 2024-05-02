@@ -24,7 +24,7 @@ function Appointment() {
     const [confirmedBooking, setConfirmedBooking] = useState(false) // Swap everytime a booking is confirmed to refresh barberSchedule component, value has no meaning
     const [closedDays, setClosedDays] = useState([])
 
-    const closedDayss = 1
+
 
     const handleClickDay= (date)=>{
       console.log(date)

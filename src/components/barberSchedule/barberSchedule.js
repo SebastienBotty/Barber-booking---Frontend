@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import './barberSchedule'
-import { convertDecimalToTime,createDateFromTimeString } from '../../utilityFunctions/dates'
+import { convertDecimalToTime,createDateFromTimeString,convertHourToDecimal } from '../../utilityFunctions/dates'
 
 import './barberSchedule.css'
 
@@ -8,10 +8,12 @@ function BarberSchedule(props) {
 
     const {barberName,dateAppointment,selectAppointmentToBook,confirmedBooking} = props.value
     
-    const firstClient = 9 // In hours
-    const lastClient= 17.5 // In hours and decimal
-    const intervalTime = 0.75 // In decimal    0.5= 30min
-    const breakTime= 12 // In hours
+   
+    const [firstClient, setFirstClient] = useState(9) //In hours and Demical => 11h45 = 11.75
+    const [lastClient, setLastClient] = useState(18) // Same
+    const [intervalTime, setIntervalTime] = useState(0.50) // In decimal 45min = 0.75
+    const [breakTime, setBreakTime] = useState(13) // In hours and demical
+    const [breakDuration, setBreakDuration] = useState(0) //In decimal
    
     const [appointmentTime, setAppointmentTime] = useState([])
     const [bookedAppointments, setbookedAppointments] = useState([])
@@ -42,7 +44,13 @@ function BarberSchedule(props) {
         const createIntervals = (start,end,interval)=>{
             const temporaryInterval= []
             for ( let i = start; i <=end;i +=interval){
-                (i === breakTime)? console.log("rien"): temporaryInterval.push(i)
+                if (i >=breakTime && i <(breakTime + breakDuration)){
+                    i = breakTime + breakDuration
+                    temporaryInterval.push(i)
+
+                }else{
+                  temporaryInterval.push(i)
+                }
             }
             
             const formatedTime =temporaryInterval.map(convertDecimalToTime)
@@ -63,12 +71,37 @@ function BarberSchedule(props) {
               console.error('Une erreur s\'est produite:', error);
             }
           }
+
+          const fetchShopInfos = async () =>{
+            try {
+                const response = await fetch('http://localhost:3000/api/shopInfos/')
+                if (!response.ok){
+
+                    throw new Error('Erreur lors de la récupération des données');
+                }
+                const jsonData = await response.json()
+                console.log(jsonData)
+                setFirstClient(convertHourToDecimal(jsonData.openingTime.opening))
+                setLastClient(convertHourToDecimal(jsonData.openingTime.closing))
+                setIntervalTime(jsonData.appointmentDuration/60)
+                if(jsonData.lunch.time){
+                    setBreakTime(convertHourToDecimal(jsonData.lunch.time))
+                    setBreakDuration(jsonData.lunch.duration/60)
+                }
+                
+
+            }
+            catch (err) {
+                console.error('Une erreur s\'est produite:', err);
+            }
+        }
         
 
-
-        createIntervals(firstClient,lastClient,intervalTime)
+        fetchShopInfos()
+        console.log(firstClient,lastClient,intervalTime)
         fetchAppointments(barberName,dateAppointment)
-    
+        createIntervals(firstClient,lastClient,intervalTime)
+     
       return () => {
     
       }

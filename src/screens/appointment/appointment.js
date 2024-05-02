@@ -22,9 +22,9 @@ function Appointment() {
     const [barbers, setBarbers] = useState([])
     const [appointmentToBook, setAppointmentToBook] = useState(null)
     const [confirmedBooking, setConfirmedBooking] = useState(false) // Swap everytime a booking is confirmed to refresh barberSchedule component, value has no meaning
+    const [closedDays, setClosedDays] = useState([])
 
-    const closedDay= 0   // (Sunday=0,Monday=1,Tuesday=2,...)
-
+    const closedDayss = 1
 
     const handleClickDay= (date)=>{
       console.log(date)
@@ -47,9 +47,10 @@ function Appointment() {
       if (date < yesterday) {
         return true;
       }
-      if(date.getDay()===closedDay){
+      if(closedDays.includes(date.getDay())){
         return true
       }
+
       return false;
     };
 
@@ -67,6 +68,23 @@ function Appointment() {
             console.error('Une erreur s\'est produite:', error);
           }
         }
+
+        const fetchClosedDays = async ()=>{
+          try{
+            const response = await fetch("http://localhost:3000/api/shopInfos/closed-days")
+            if (!response.ok){
+              throw new Error('Erreur lors de la récupération des données');
+            }
+            const jsonData = await response.json();
+            console.log(jsonData)
+            setClosedDays(jsonData)
+           
+          }catch(err){
+
+          }
+        }
+        
+        fetchClosedDays()
         fetchBarbers()
 
         return () => {

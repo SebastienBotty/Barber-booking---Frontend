@@ -18,7 +18,7 @@ function Sidebar(props){
                     width="1.5rem"
                 />
         </div>
-            Infos 
+            Paramètres 
         </li>
         <li onClick={() => props.scrollToPrices()}>
         <div className='li-ionIcons-left-side'>

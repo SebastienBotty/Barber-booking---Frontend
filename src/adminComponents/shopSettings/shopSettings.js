@@ -1,21 +1,28 @@
 import React,{useState,useEffect} from 'react'
-import LoadingSpinner from '../../../components/loadingSpinner/loadingSpinner'
+import LoadingSpinner from '../../components/loadingSpinner/loadingSpinner'
 import "./shopSettings.css"
 
 function ShopSettings() {
+    //datas
     const [address, setAddress] = useState('')
     const [appointmentDuration, setAppointmentDuration] = useState(45)
     const [lunchTime, setLunchTime] = useState('12:00')
     const [lunchTimeDuration, setLunchTimeDuration] = useState(30)
-    const [isChecked, setIsChecked] = useState(false)
     const [mail, setMail] = useState('')
     const [shopName, setShopName] = useState("")
     const [phoneNumber, setPhoneNumber] = useState('');
     const [openingTime, setOpeningTime] = useState({opening:'09:30',closing:"18:00"})
+    const [closingDays, setClosingDays] = useState([])
+
+    // status checkers
+    const [isChecked, setIsChecked] = useState(false) 
+    const [isShopExisting, setIsShopExisting] = useState(false)
     const [status, setStatus] = useState('progressing')
 
 
-    const [isShopExisting, setIsShopExisting] = useState(false)
+
+    const days=['Lundi','Mardi','Mercredi','Jeudi',"Vendredi",'Samedi','Dimanche']
+    
 
 
     const createShop = async ()=>{
@@ -26,8 +33,10 @@ function ShopSettings() {
             shopMail:mail,
             openingTime:openingTime,
             appointmentDuration:appointmentDuration,
-            lunch:isChecked?{time:lunchTime,duration:lunchTimeDuration}:{time:"",duration:0}
+            lunch:isChecked?{time:lunchTime,duration:lunchTimeDuration}:{time:"",duration:0},
+            closingDays:closingDays
         }
+        console.log(postData)
         try {
             const response = await fetch('http://localhost:3000/api/shopInfos', {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -70,7 +79,8 @@ function ShopSettings() {
             shopMail:mail,
             openingTime:openingTime,
             appointmentDuration:appointmentDuration,
-            lunch:lunchData
+            lunch:lunchData,
+            closingDays:closingDays
         }
         console.log("postDATA")
         console.log(postData)
@@ -128,6 +138,17 @@ function ShopSettings() {
         setAddress(e.target.value)
     }
 
+    const handleDaysChange = (event) => {
+        const { name, checked } = event.target;
+        if (checked) {
+            setClosingDays([...closingDays, name]); // Ajoute le jour coché à l'array
+        } else {
+            setClosingDays(closingDays.filter(item => item !== name)); // Retire le jour décoché de l'array
+        }
+        console.log(name + " a été mis sur "+  event.target.checked)
+
+      };
+
 
     const handleForm = (e)=>{
         e.preventDefault()
@@ -177,6 +198,7 @@ function ShopSettings() {
                 setPhoneNumber(jsonData.shopPhoneNumber)
                 setOpeningTime(jsonData.openingTime)
                 setAppointmentDuration(jsonData.appointmentDuration)
+                setClosingDays(jsonData.closingDays)
                 if(jsonData.lunch.time){
                     setIsChecked(true)
                     setLunchTime(jsonData.lunch.time)
@@ -201,7 +223,7 @@ function ShopSettings() {
 
 
         <form className='shop-form' onSubmit={handleForm}> 
-            <h2>
+            <h2 style={{height:"2rem"}}>
                 {isShopExisting?shopName:"Magasin"}
             </h2>
 
@@ -255,6 +277,33 @@ function ShopSettings() {
                 </select>
             </div>
             <div>
+                <label htmlFor='lunchTime'>Pause</label>
+                <input
+                    id='lunchTime'
+                    name='lunchTime'
+                    type='checkbox'
+                    checked={isChecked}
+                    onChange={(e)=>setIsChecked(e.target.checked)}
+                    />
+                {isChecked &&
+                <div className='lunch-time'>
+                    <div>
+                        <label htmlFor='lunch-time'>Heure</label>
+                        <select id='lunch-time' name='lunch-time' value={lunchTime} onChange={(e)=>setLunchTime(e.target.value)}>
+                            {generateClosingOptions()}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor='lunch-time-duration'>Durée<span style={{fontSize:'small'}}>(minutes)</span></label>
+                        <select id='lunch-time-duration' name='lunch-time-duration' value={lunchTimeDuration} onChange={(e)=>setLunchTimeDuration(e.target.value)}>
+                            <option key={"lunchTime-15"} value={15}>15</option>
+                            <option key={"lunchTime-30"}value={30}>30</option>
+                            <option key={"lunchTime-45"} value={45}>45</option>
+                        </select>
+                    </div>
+                </div>}
+            </div>
+            <div>
                 <label htmlFor="opening-time">Heure de fermeture</label>
                 <select id="time" name="time" value={openingTime.closing} onChange={handleClosingTimeChange}>
                     {generateClosingOptions()}
@@ -271,33 +320,33 @@ function ShopSettings() {
                     <option key='appointment-duration-60' value={60}>60</option>
                 </select>
             </div>
-            <div>
-                <label htmlFor='lunchTime'>Pause</label>
-                <input
-                    id='lunchTime'
-                    name='lunchTime'
-                    type='checkbox'
-                    checked={isChecked}
-                    onChange={(e)=>setIsChecked(e.target.checked)}
-                    />
+            
+           
+            <div className='closing-days'>
+                <div className='closing-days-columns'>
+                    <span>Jours fermés</span>
+                </div>
+                <div className='closing-days-columns' id={"closing-days-checkbox"}>
+                    <ul>
+                        {days.map(day => (
+                            <li  key={day} >
+                                <label id={day} htmlFor={day}>
+                                <input
+                                    type="checkbox"
+                                    name={day}
+                                    checked={closingDays.includes(day)}
+                                    onChange={handleDaysChange}
+                                />
+                                <div style={{marginRight:'1rem'}}>
+                                    {day}
+                                </div>
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-            {isChecked &&
-            <div className='lunch-time'>
-                <div>
-                    <label htmlFor='lunch-time'>Heure</label>
-                    <select id='lunch-time' name='lunch-time' value={lunchTime} onChange={(e)=>setLunchTime(e.target.value)}>
-                        {generateClosingOptions()}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor='lunch-time-duration'>Durée<span style={{fontSize:'small'}}>(minutes)</span></label>
-                    <select id='lunch-time-duration' name='lunch-time-duration' value={lunchTimeDuration} onChange={(e)=>setLunchTimeDuration(e.target.value)}>
-                        <option key={"lunchTime-15"} value={15}>15</option>
-                        <option key={"lunchTime-30"}value={30}>30</option>
-                        <option key={"lunchTime-45"} value={45}>45</option>
-                    </select>
-                </div>
-            </div>}
+           
             <div className='confirmation-form-footer'>
                 {(status === "loading")&& <LoadingSpinner/>}
                 {(status === 'progressing')&&<button id="btn-form-shop-settings" type="submit">{isShopExisting? 'Modifier': "Créer"}</button>}
@@ -306,6 +355,8 @@ function ShopSettings() {
 
             </div>
         </form>
+        
+        
     </div>
   )
 }

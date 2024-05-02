@@ -5,7 +5,8 @@ import SignIn from '../../adminComponents/auth/signIn/signIn'
 import Sidebar from '../../adminComponents/sideBar/sideBar';
 import Prices from '../../adminComponents/prices/prices';
 import BarbersInfos from '../../adminComponents/barbersInfos/barbersInfos';
-import ShopInfos from '../../adminComponents/shopInfos/shopInfos';
+import ShopSettings from '../../adminComponents/shopSettings/shopSettings';
+
 
 import './adminDashboard.css'
 
@@ -15,7 +16,7 @@ function AdminDashboard() {
 
     const pricesRef = useRef(null);
     const barbersRef = useRef(null);
-    const shopInfosRef = useRef(null);
+    const shopSettingsRef = useRef(null);
     const scheduleRef = useRef(null);
 
     const scrollToSection = (ref) => {
@@ -44,11 +45,11 @@ function AdminDashboard() {
                   disconnect={ ()=>handleSignOut()}
                   scrollToPrices={() => scrollToSection(pricesRef)}
                   scrollToBarbers={() => scrollToSection(barbersRef)}
-                  scrollToInfos={() => scrollToSection(shopInfosRef)}
+                  scrollToInfos={() => scrollToSection(shopSettingsRef)}
                   scrollToSchedule={() => scrollToSection(scheduleRef)}
                 />
                 <div className='content-container'>
-                  <div ref={shopInfosRef}><ShopInfos/></div>
+                  <div ref={shopSettingsRef}><ShopSettings/></div>
                   <div ref={pricesRef}><Prices /></div>
                   <div ref={barbersRef}><BarbersInfos/></div>
                   <div className='yo' ref={scheduleRef}>Plannings</div>

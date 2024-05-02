@@ -183,11 +183,13 @@ ul li{
 }
 
 ul.list-left-side{
+    padding-left: 0;
     float:left;
     width: 35%;
 }
 
 ul.list-right-side{
+    padding-left: 0;
     text-align: end;
     float:right;
     width: 65%;

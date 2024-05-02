@@ -21,8 +21,7 @@ function ShopSettings() {
 
 
 
-    const days=['Lundi','Mardi','Mercredi','Jeudi',"Vendredi",'Samedi','Dimanche']
-    
+    const days=['Dimanche','Lundi','Mardi','Mercredi','Jeudi',"Vendredi",'Samedi']
 
 
     const createShop = async ()=>{
@@ -141,9 +140,10 @@ function ShopSettings() {
     const handleDaysChange = (event) => {
         const { name, checked } = event.target;
         if (checked) {
-            setClosingDays([...closingDays, name]); // Ajoute le jour coché à l'array
+            console.log(days.indexOf(name))
+            setClosingDays([...closingDays, days.indexOf(name)]); // Ajoute le jour coché à l'array
         } else {
-            setClosingDays(closingDays.filter(item => item !== name)); // Retire le jour décoché de l'array
+            setClosingDays(closingDays.filter(item => item !== days.indexOf(name))); // Retire le jour décoché de l'array
         }
         console.log(name + " a été mis sur "+  event.target.checked)
 
@@ -334,7 +334,7 @@ function ShopSettings() {
                                 <input
                                     type="checkbox"
                                     name={day}
-                                    checked={closingDays.includes(day)}
+                                    checked={closingDays.includes(days.indexOf(day))}
                                     onChange={handleDaysChange}
                                 />
                                 <div style={{marginRight:'1rem'}}>

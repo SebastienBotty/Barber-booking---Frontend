@@ -8,13 +8,7 @@ function BarberSchedule(props) {
 
     const {barberName,dateAppointment,selectAppointmentToBook,confirmedBooking} = props.value
     
-   
-    const [firstClient, setFirstClient] = useState(9) //In hours and Demical => 11h45 = 11.75
-    const [lastClient, setLastClient] = useState(18) // Same
-    const [intervalTime, setIntervalTime] = useState(0.50) // In decimal 45min = 0.75
-    const [breakTime, setBreakTime] = useState(13) // In hours and demical
-    const [breakDuration, setBreakDuration] = useState(0) //In decimal
-   
+     
     const [appointmentTime, setAppointmentTime] = useState([])
     const [bookedAppointments, setbookedAppointments] = useState([])
 
@@ -41,14 +35,16 @@ function BarberSchedule(props) {
 
     useEffect(() => {
 
-        const createIntervals = (start,end,interval)=>{
+        const createIntervals = (start,end,interval,breakTime,breakDuration)=>{
             const temporaryInterval= []
-            for ( let i = start; i <=end;i +=interval){
-                if (i >=breakTime && i <(breakTime + breakDuration)){
-                    i = breakTime + breakDuration
-                    temporaryInterval.push(i)
 
-                }else{
+            for ( let i = start; i <=end;i +=interval){
+              if (breakTime){
+                if (i >=breakTime && i <(breakTime + breakDuration)){
+                  i = breakTime + breakDuration
+                }
+                temporaryInterval.push(i)
+              }else{
                   temporaryInterval.push(i)
                 }
             }
@@ -81,14 +77,17 @@ function BarberSchedule(props) {
                 }
                 const jsonData = await response.json()
                 console.log(jsonData)
-                setFirstClient(convertHourToDecimal(jsonData.openingTime.opening))
-                setLastClient(convertHourToDecimal(jsonData.openingTime.closing))
-                setIntervalTime(jsonData.appointmentDuration/60)
-                if(jsonData.lunch.time){
-                    setBreakTime(convertHourToDecimal(jsonData.lunch.time))
-                    setBreakDuration(jsonData.lunch.duration/60)
+                let opening = (convertHourToDecimal(jsonData.openingTime.opening))    //In hours and Demical => 11h45 = 11.75
+                let closing = (convertHourToDecimal(jsonData.openingTime.closing))    //same
+                let appointmentDuration = (jsonData.appointmentDuration/60)           // In decimal 45min = 0.75
+                let isBreak                                                           //In hours and demical
+                let breakDuration                                                     //In hours and demical
+                if (jsonData.lunch.time){
+                    isBreak=(convertHourToDecimal(jsonData.lunch.time))             
+                    breakDuration =(jsonData.lunch.duration/60)  
                 }
-                
+                createIntervals(opening,closing,appointmentDuration,isBreak,breakDuration)
+
 
             }
             catch (err) {
@@ -98,9 +97,8 @@ function BarberSchedule(props) {
         
 
         fetchShopInfos()
-        console.log(firstClient,lastClient,intervalTime)
         fetchAppointments(barberName,dateAppointment)
-        createIntervals(firstClient,lastClient,intervalTime)
+        
      
       return () => {
     

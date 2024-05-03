@@ -1,6 +1,5 @@
 .barberSchedule{
-    height: 100vh;
-    width: 100;
+    width: 100%;
     background-color: #1B1E26;
     color:white;
     display: flex;
@@ -54,5 +53,5 @@ li.Book-interval, li.Book-interval-booked{
 
 .barberSchedule ul{
     padding-inline-start: 0;
-    width: 10rem;
+    width: 100%;
 }

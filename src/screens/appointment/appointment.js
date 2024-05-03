@@ -18,7 +18,7 @@ function Appointment() {
     today.setSeconds(0)
     today.setMilliseconds(0)
 
-    const [selectedDate, setSelectedDate] = useState(today)
+    const [selectedDate, setSelectedDate] = useState()
     const [barbers, setBarbers] = useState([])
     const [appointmentToBook, setAppointmentToBook] = useState(null)
     const [confirmedBooking, setConfirmedBooking] = useState(false) // Swap everytime a booking is confirmed to refresh barberSchedule component, value has no meaning
@@ -97,21 +97,29 @@ function Appointment() {
         <div className='left-side'>
           <div className='left-side-centered-div'>
             <Calendar 
-            onClickDay={(value,event)=>handleClickDay(value)} 
-            tileDisabled={tileDisabled}
-            id="calendar"/>
+              onClickDay={(value,event)=>handleClickDay(value)} 
+              tileDisabled={tileDisabled}
+              id="calendar"
+              />
           </div>
+          
         </div>
         <div className="center-div">
-          <div className='schedule-display'>
-                {barbers.map((barber)=>{
-                  return (
-                    <>
-                      <BarberSchedule value={{barberName :barber.name,dateAppointment:selectedDate,selectAppointmentToBook:changeAppointmentToBook,confirmedBooking:confirmedBooking}}/>
-                    </>
-                  )
-                })}
-          </div>
+          {selectedDate?
+            <> 
+            <div className='schedule-display'>
+              {barbers.map((barber)=>{
+                return (
+                  <>
+                    <BarberSchedule value={{barberName :barber.name,dateAppointment:selectedDate,selectAppointmentToBook:changeAppointmentToBook,confirmedBooking:confirmedBooking}}/>
+                  </>
+                )
+              })}
+            </div>
+            </>
+            :
+            <div id='select-date-msg'>Sélectionnez une date</div>
+           }
         </div>  
         <div className='right-side'>
 

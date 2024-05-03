@@ -111,12 +111,16 @@ function BarberSchedule(props) {
       <ul>
         <h4>{barberName}</h4>
         {appointmentTime.map((time,index)=>{  
+          if(isTimePassed(createDateFromTimeString(dateAppointment,time))){
+            return false
+          }
+          else if(isDateBooked(createDateFromTimeString(dateAppointment,time))){
+            return (<li className= "Book-interval-booked"   key={index} tabIndex={0}></li>)
+          }else{
+            return (<li className= "Book-interval" onClick={()=>{
+              bookAppointment(createDateFromTimeString(dateAppointment,time))}} key={index} tabIndex={0}>{time}</li>)
 
-          return (isDateBooked(createDateFromTimeString(dateAppointment,time)) || isTimePassed(createDateFromTimeString(dateAppointment,time)))?
-          (<li className= "Book-interval-booked"   key={index} tabIndex={0}></li>)
-          :
-          (<li className= "Book-interval" onClick={()=>{
-            bookAppointment(createDateFromTimeString(dateAppointment,time))}} key={index} tabIndex={0}>{time}</li>)
+          }
 
         })}
       </ul>

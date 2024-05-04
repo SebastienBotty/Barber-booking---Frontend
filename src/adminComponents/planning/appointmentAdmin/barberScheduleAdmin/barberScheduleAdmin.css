@@ -1,0 +1,8 @@
+#interval-booked-admin{
+    background-color:#6E3434;
+    cursor: pointer;
+}
+
+#interval-booked-admin:hover{
+    background-color: #B65E5E;
+}

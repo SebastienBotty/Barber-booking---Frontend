@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react'
-import './barberSchedule'
-import { convertDecimalToTime,createDateFromTimeString,convertHourToDecimal } from '../../utilityFunctions/dates'
+import { convertDecimalToTime,createDateFromTimeString,convertHourToDecimal } from '../../../../utilityFunctions/dates'
 
-import './barberSchedule.css'
+import '../../../../components/barberSchedule/barberSchedule.css'
+import './barberScheduleAdmin.css'
 
-function BarberSchedule(props) {
+function BarberScheduleAdmin(props) {
 
     const {barberName,dateAppointment,selectAppointmentToBook,confirmedBooking} = props.value
     
@@ -14,11 +14,12 @@ function BarberSchedule(props) {
 
     const isDateBooked = (dateToCompare) =>{
         const test = bookedAppointments.find(appointment=> new Date(appointment.date).toString() === new Date(dateToCompare).toString() )
-        return test? true: false
+ 
+        return test
     }    
 
-    const bookAppointment = (dateToBook)=>{
-      selectAppointmentToBook({barberName:barberName,date:dateToBook})
+    const bookAppointment = (dateToBook,isEdit,clientName,appointmentId)=>{
+      selectAppointmentToBook({barberName:barberName,date:dateToBook,isEdit:isEdit,clientToEdit:clientName,appointmentId:appointmentId})
   
     }
     //Check the time to disable ppl from booking an already passed time
@@ -111,14 +112,16 @@ function BarberSchedule(props) {
       <ul>
         <div id='barber-name'><h4>{barberName}</h4></div>
         {appointmentTime.map((time,index)=>{  
+          var booked = isDateBooked(createDateFromTimeString(dateAppointment,time))
           if(isTimePassed(createDateFromTimeString(dateAppointment,time))){
             return false
           }
-          else if(isDateBooked(createDateFromTimeString(dateAppointment,time))){
-            return (<li className= "Book-interval-booked"   key={index} tabIndex={0}></li>)
+          else if(booked){
+            return (<li className= "Book-interval-booked" id='interval-booked-admin' onClick={()=>{
+              bookAppointment(createDateFromTimeString(dateAppointment,time),true,booked.clientName,booked._id)}} key={index} tabIndex={0}>{time}</li>)
           }else{
             return (<li className= "Book-interval" onClick={()=>{
-              bookAppointment(createDateFromTimeString(dateAppointment,time))}} key={index} tabIndex={0}>{time}</li>)
+              bookAppointment(createDateFromTimeString(dateAppointment,time),false)}} key={index} tabIndex={0}>{time}</li>)
 
           }
 
@@ -128,4 +131,4 @@ function BarberSchedule(props) {
   )
 }
 
-export default BarberSchedule
+export default BarberScheduleAdmin

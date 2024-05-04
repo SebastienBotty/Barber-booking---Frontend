@@ -9,7 +9,7 @@
 
 .barber-infos{
     border: 1px solid red;
-    width: 90vw;
+    width: 100%;
     min-height: 55vh;
     padding: 1.5rem 0;
 }

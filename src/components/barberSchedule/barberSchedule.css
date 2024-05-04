@@ -7,7 +7,14 @@
 
 }
 
-
+.barberSchedule #barber-name{
+    position: sticky;
+    top:0;
+    height: 2rem;
+    padding:1rem 1.5em 1rem 1.5rem;
+    background-color: #1B1E26;
+    border-bottom: 1px solid #8D8272;
+}
 
 .Book-interval{
     cursor: pointer;
@@ -22,11 +29,6 @@
 
 }
 
-.Book-interval-booked{
-    color:red;
-    pointer-events: none;
-    
-}
 
 h4{
     margin-top: 0;

@@ -6,6 +6,7 @@ import Sidebar from '../../adminComponents/sideBar/sideBar';
 import Prices from '../../adminComponents/prices/prices';
 import BarbersInfos from '../../adminComponents/barbersInfos/barbersInfos';
 import ShopSettings from '../../adminComponents/shopSettings/shopSettings';
+import Planning from '../../adminComponents/planning/planning';
 
 
 import './adminDashboard.css'
@@ -17,7 +18,7 @@ function AdminDashboard() {
     const pricesRef = useRef(null);
     const barbersRef = useRef(null);
     const shopSettingsRef = useRef(null);
-    const scheduleRef = useRef(null);
+    const planningRef = useRef(null);
 
     const scrollToSection = (ref) => {
       ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -46,13 +47,13 @@ function AdminDashboard() {
                   scrollToPrices={() => scrollToSection(pricesRef)}
                   scrollToBarbers={() => scrollToSection(barbersRef)}
                   scrollToInfos={() => scrollToSection(shopSettingsRef)}
-                  scrollToSchedule={() => scrollToSection(scheduleRef)}
+                  scrollToSchedule={() => scrollToSection(planningRef)}
                 />
                 <div className='content-container'>
                   <div ref={shopSettingsRef}><ShopSettings/></div>
                   <div ref={pricesRef}><Prices /></div>
                   <div ref={barbersRef}><BarbersInfos/></div>
-                  <div className='yo' ref={scheduleRef}>Plannings</div>
+                  <div ref={planningRef}><Planning/></div>
                 </div>
               </div>
             </>

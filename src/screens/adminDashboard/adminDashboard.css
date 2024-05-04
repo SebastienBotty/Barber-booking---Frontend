@@ -1,14 +1,7 @@
-.yo{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .admin-dashboard{
     display: grid;
     grid-template-columns: 10vw repeat(4, 90vw);
-    grid-template-rows: 400vh;
 }
 
 

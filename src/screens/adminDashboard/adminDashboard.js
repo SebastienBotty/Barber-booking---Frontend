@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from 'react'
+import React,{useState,useLayoutEffect,useRef} from 'react'
 import { auth } from '../../firebase';
 
 import SignIn from '../../adminComponents/auth/signIn/signIn'
@@ -14,6 +14,7 @@ import './adminDashboard.css'
 
 function AdminDashboard() {
     const [user, setUser] = useState(null);
+    const [isAuthChecked, setIsAuthChecked] = useState(false)
 
     const pricesRef = useRef(null);
     const barbersRef = useRef(null);
@@ -24,17 +25,24 @@ function AdminDashboard() {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     };
 
-  useEffect(() => {
-    const authSubscribe = auth.onAuthStateChanged(user => {
-      setUser(user);
-    });
+    useLayoutEffect(() => {
+      
+      const authSubscribe = auth.onAuthStateChanged(user => {
+        setUser(user);
+        setIsAuthChecked(true)
+      });
 
-    return () => authSubscribe();
-  }, []);
+      return () => authSubscribe();
+    }, []);
 
-  const handleSignOut = () => {
-    auth.signOut();
-  };
+    const handleSignOut = () => {
+      auth.signOut();
+    };
+
+    if (!isAuthChecked) {
+      // La vérification de la connexion n'est pas encore terminée
+      return null; // Ou un composant de chargement/spinner
+    }
     
     return (
 
